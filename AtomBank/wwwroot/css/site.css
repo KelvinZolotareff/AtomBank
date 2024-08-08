@@ -1,0 +1,137 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.title {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.table {
+    margin-top: 20px;
+    max-height: 400px; /* Define a altura máxima da tabela */
+    overflow-y: auto; /* Adiciona a rolagem vertical */
+    display: block;
+}
+.table-wrapper {
+    max-height: 400px; /* Define a altura máxima da tabela */
+    margin-bottom: 20px; /* Para evitar que a tabela se sobreponha ao rodapé */
+}
+
+    .table-wrapper table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table-wrapper thead th {
+        position: sticky;
+        top: 0;
+        background: #f8f9fa;
+        z-index: 1;
+    }
+
+    .table-wrapper tbody tr:nth-child(even) {
+        background: #f2f2f2;
+    }
+
+.btn-primary {
+    background-color: #000000;
+    border: none;
+    padding: 10px 20px;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+    .btn-primary:hover {
+        background-color: #000000;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+    }
+
+.btn-square {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    margin-left: 5px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+    .btn-square i {
+        font-size: 20px;
+        color: white;
+    }
+
+.btn-success.btn-square {
+    background-color: #28a745;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn-danger.btn-square {
+    background-color: #dc3545;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn-square:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+.btn.active {
+    border: 2px solid transparent;
+    animation: rotateBorder 2s linear infinite;
+    box-shadow: 0 0 10px #000000;
+}
+
+@keyframes rotateBorder {
+    0% {
+        border: 2px solid #000000;
+        box-shadow: 0 0 10px #000000;
+    }
+
+    25% {
+        border: 2px solid transparent;
+        box-shadow: 0 0 10px transparent;
+    }
+
+    50% {
+        border: 2px solid #000000;
+        box-shadow: 0 0 10px #000000;
+    }
+
+    75% {
+        border: 2px solid transparent;
+        box-shadow: 0 0 10px transparent;
+    }
+
+    100% {
+        border: 2px solid #000000;
+        box-shadow: 0 0 10px #000000;
+    }
+}
+
+
+.form-control {
+    width: auto;
+    display: inline-block;
+    color: #e0e0e0;
+    border-radius: 4px;
+    padding: 5px 10px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+    .form-control:focus {
+        border-color: #1ab1d7;
+        box-shadow: 0 0 5px rgba(255, 102, 0, 0.5);
+    }
