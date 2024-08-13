@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Adiciona o DbContext ao contêiner de serviços
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer("Data Source=DESKTOP-C7N4JP2\\SQLEXPRESS;Initial Catalog=AtomBank;Integrated Security=True;Trust Server Certificate=True")
+    options.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=AtomBank;Integrated Security=True;Trust Server Certificate=True")
     );
 
 // Adiciona serviços ao contêiner

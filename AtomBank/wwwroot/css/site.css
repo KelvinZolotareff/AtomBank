@@ -8,32 +8,24 @@ body {
     text-align: center;
 }
 
-.table {
-    margin-top: 20px;
-    max-height: 400px; /* Define a altura máxima da tabela */
-    overflow-y: auto; /* Adiciona a rolagem vertical */
-    display: block;
-}
-.table-wrapper {
-    max-height: 400px; /* Define a altura máxima da tabela */
-    margin-bottom: 20px; /* Para evitar que a tabela se sobreponha ao rodapé */
+.table-container {
+    max-height: 400px; /* Ajuste a altura máxima conforme necessário */
+    overflow-y: auto; /* Adiciona uma barra de rolagem vertical se o conteúdo exceder a altura máxima */
+    width: 100%; /* Garante que o container da tabela use toda a largura disponível */
+    border: 1px solid #ddd; /* Adiciona uma borda ao redor do container */
 }
 
-    .table-wrapper table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+.table-fixed {
+    width: 100%; /* Ajusta a largura para preencher o container */
+    table-layout: fixed; /* Faz com que a tabela use o layout fixo */
+}
 
-    .table-wrapper thead th {
-        position: sticky;
-        top: 0;
-        background: #f8f9fa;
-        z-index: 1;
-    }
+.table-fixed th, .table-fixed td {
+    word-wrap: break-word; /* Quebra palavras longas */
+    overflow: hidden; /* Esconde o conteúdo que ultrapassa as células */
+    text-overflow: ellipsis; /* Adiciona reticências (...) para texto que não cabe na célula */
+}
 
-    .table-wrapper tbody tr:nth-child(even) {
-        background: #f2f2f2;
-    }
 
 .btn-primary {
     background-color: #000000;

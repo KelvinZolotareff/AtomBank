@@ -2,7 +2,9 @@
 using AtomBank.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace AtomBank.Services
 {
@@ -29,9 +31,24 @@ namespace AtomBank.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Transaction>> GetAllTransactionsAsync()
+        public async Task<List<Transaction>> GetAllTransactionsAsync(string order, string orderDirection)
         {
-            return await _context.Transactions.ToListAsync();
+            IQueryable<Transaction> query = _context.Transactions;
+
+            switch (order)
+            {
+                case "Valor":
+                    query = (orderDirection == "asc") ? query.OrderBy(a => a.Amount) : query.OrderByDescending(a => a.Amount);
+                    break;
+                case "Data":
+                    query = (orderDirection == "asc") ? query.OrderBy(a => a.Date) : query.OrderByDescending(a => a.Date);
+                    break;
+                default:
+                    query = query.OrderBy(a => a.Date);
+                    break;
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<decimal> GetTotalIncomeForMonthAsync(int year, int month)

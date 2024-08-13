@@ -8,23 +8,26 @@ const incomeBtn = document.getElementById('income-btn');
 const expenseBtn = document.getElementById('expense-btn');
 const transactionForm = document.getElementById('transaction-form');
 
-incomeBtn.addEventListener('click', () => {
-    transactionForm.dataset.type = 'Income';
+
+document.getElementById('income-btn').addEventListener('click', function () {
+    transactionType = 'Income';
+    document.getElementById('transaction-form').elements['IsIncome'].value = true;
     incomeBtn.classList.add('active');
     expenseBtn.classList.remove('active');
 });
 
-expenseBtn.addEventListener('click', () => {
-    transactionForm.dataset.type = 'Expense';
+document.getElementById('expense-btn').addEventListener('click', function () {
+    transactionType = 'Expense';
+    document.getElementById('transaction-form').elements['IsIncome'].value = false;
     expenseBtn.classList.add('active');
     incomeBtn.classList.remove('active');
 });
 
-transactionForm.addEventListener('submit', (event) => {
-    const type = transactionForm.dataset.type;
-    if (type === 'Income') {
-        document.getElementById('isIncome').value = true;
-    } else if (type === 'Expense') {
-        document.getElementById('isIncome').value = false;
-    }
+document.getElementById('transaction-form').addEventListener('submit', function (event) {
+     if (!transactionType) {
+        event.preventDefault();
+        alert('Por favor, selecione o tipo de transação (Receita ou Despesa).');
+     }
 });
+
+    

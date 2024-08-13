@@ -16,9 +16,14 @@ namespace AtomBank.Controllers
             _transactionService = transactionService;
         }
 
-        public async Task<IActionResult> Index(int? month, int? year)
+        public async Task<IActionResult> Index(int? month, int? year, string order, string orderDirection)
         {
-            var transactions = await _transactionService.GetAllTransactionsAsync();
+            if (string.IsNullOrEmpty(order))
+            {
+                order = "desc"; // Ordena por valor decrescente por padrão
+            }
+
+            var transactions = await _transactionService.GetAllTransactionsAsync(order, orderDirection);
 
             if (month.HasValue && year.HasValue)
             {
@@ -47,8 +52,15 @@ namespace AtomBank.Controllers
                 TotalViewModel = totalViewModel
             };
 
+
+            ViewData["Order"] = order ?? "Valor";
+            ViewData["OrderDirection"] = orderDirection ?? "asc";
+            ViewData["Month"] = month;
+            ViewData["Year"] = year;
+
             return View(model);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> GetMonthlyTotals(int year, int month)
