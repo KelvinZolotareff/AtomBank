@@ -29,6 +29,14 @@ namespace AtomBank.Controllers
             {
                 transactions = transactions.Where(t => t.Date.Month == month.Value && t.Date.Year == year.Value).ToList();
             }
+            else if (year.HasValue)
+            {
+                transactions = transactions.Where(t => t.Date.Year == year.Value).ToList();
+            }
+            else if (month.HasValue)
+            {
+                transactions = transactions.Where(t => t.Date.Month == month.Value).ToList();
+            }
 
             var totalIncome = transactions.Where(t => t.IsIncome).Sum(t => t.Amount);
             var totalExpense = transactions.Where(t => !t.IsIncome).Sum(t => t.Amount);
@@ -61,23 +69,6 @@ namespace AtomBank.Controllers
             return View(model);
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> GetMonthlyTotals(int year, int month)
-        {
-            var totalIncome = await _transactionService.GetTotalIncomeForMonthAsync(year, month);
-            var totalExpense = await _transactionService.GetTotalExpenseForMonthAsync(year, month);
-            var total = totalIncome - totalExpense;
-
-            var totalViewModel = new TotalViewModel
-            {
-                TotalIncome = totalIncome,
-                TotalExpense = totalExpense,
-                Total = total
-            };
-
-            return Ok(totalViewModel);
-        }
 
         [HttpPost]
         public async Task<IActionResult> DeleteTransaction(int id)

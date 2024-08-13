@@ -51,19 +51,6 @@ namespace AtomBank.Services
             return await query.ToListAsync();
         }
 
-        public async Task<decimal> GetTotalIncomeForMonthAsync(int year, int month)
-        {
-            return await _context.Transactions
-                .Where(t => t.IsIncome && t.Date.Year == year && t.Date.Month == month)
-                .SumAsync(t => t.Amount);
-        }
-
-        public async Task<decimal> GetTotalExpenseForMonthAsync(int year, int month)
-        {
-            return await _context.Transactions
-                .Where(t => !t.IsIncome && t.Date.Year == year && t.Date.Month == month)
-                .SumAsync(t => t.Amount);
-        }
 
         public async Task DeleteTransactionAsync(int id)
         {

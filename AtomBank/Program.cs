@@ -1,18 +1,18 @@
 using AtomBank.Data;
 using AtomBank.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adiciona o DbContext ao contêiner de serviços
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=AtomBank;Integrated Security=True;Trust Server Certificate=True")
-    );
+builder.Services.AddDbContext<ApplicationDbContext>(options =>             
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
-// Adiciona serviços ao contêiner
 builder.Services.AddControllersWithViews();
-builder.Services.AddAuthorization(); // Adiciona o serviço de autorização
+builder.Services.AddAuthorization(); 
 builder.Services.AddTransient<TransactionService>();
 
 var app = builder.Build();
@@ -29,7 +29,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization(); // Certifique-se de que o middleware de autorização está registrado
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
