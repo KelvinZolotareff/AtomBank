@@ -1,83 +1,72 @@
 body {
     font-family: 'Roboto', sans-serif;
+    background-color: #121212; /* Fundo escuro */
+    color: #e0e0e0; /* Texto claro */
 }
 
-.title {
-    font-size: 2.5em;
+.container {
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.card {
+    background-color: #1e1e1e; /* Fundo escuro das cartas */
+    color: #e0e0e0;
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra sutil */
+    margin-bottom: 30px;
+}
+
+.card-title {
+    font-size: 1.5em;
     margin-bottom: 20px;
-    text-align: center;
+    color: #ffffff; /* Texto branco para destaque */
 }
-
-.table-container {
-    max-height: 400px; /* Ajuste a altura máxima conforme necessário */
-    overflow-y: auto; /* Adiciona uma barra de rolagem vertical se o conteúdo exceder a altura máxima */
-    width: 100%; /* Garante que o container da tabela use toda a largura disponível */
-    border: 1px solid #ddd; /* Adiciona uma borda ao redor do container */
-}
-
-.table-fixed {
-    width: 100%; /* Ajusta a largura para preencher o container */
-    table-layout: fixed; /* Faz com que a tabela use o layout fixo */
-}
-
-.table-fixed th, .table-fixed td {
-    word-wrap: break-word; /* Quebra palavras longas */
-    overflow: hidden; /* Esconde o conteúdo que ultrapassa as células */
-    text-overflow: ellipsis; /* Adiciona reticências (...) para texto que não cabe na célula */
-}
-
 
 .btn-primary {
-    background-color: #000000;
+    background-color: #007bff;
     border: none;
     padding: 10px 20px;
-    color: #ffffff;
+    color: #fff;
     text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 20px;
     border-radius: 4px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.3s, box-shadow 0.3s;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s;
 }
 
     .btn-primary:hover {
-        background-color: #000000;
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+        background-color: #0056b3;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
 .btn-square {
-    width: 30px;
-    height: 30px;
-    padding: 5px;
+    width: 40px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 50%;
     margin-left: 5px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    position: relative;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s;
 }
 
     .btn-square i {
-        font-size: 20px;
-        color: white;
+        font-size: 18px;
+        color: #fff;
     }
 
 .btn-success.btn-square {
     background-color: #28a745;
-    border: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .btn-danger.btn-square {
     background-color: #dc3545;
-    border: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .btn-square:hover {
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn.active {
@@ -113,17 +102,61 @@ body {
     }
 }
 
-
 .form-control {
-    width: auto;
-    display: inline-block;
-    color: #e0e0e0;
+    width: 100%;
+    padding: 10px;
+    background-color: #2e2e2e; /* Fundo do campo de entrada */
+    color: #e0e0e0; /* Texto claro */
+    border: 1px solid #ccc;
     border-radius: 4px;
-    padding: 5px 10px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s;
 }
 
     .form-control:focus {
-        border-color: #1ab1d7;
-        box-shadow: 0 0 5px rgba(255, 102, 0, 0.5);
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
+
+.table {
+    border: 1px solid #333; /* Borda escura da tabela */
+}
+
+    .table th {
+        background-color: #424242; /* Cabeçalho mais escuro */
+        color: #ffffff; /* Texto claro */
+    }
+
+    .table td {
+        background-color: #2e2e2e; /* Linhas da tabela em tom escuro */
+        color: #e0e0e0; /* Texto claro */
+        text-align: center;
+        vertical-align: middle;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: #3a3a3a; /* Efeito de hover mais sutil */
+}
+
+.table-responsive {
+    border-radius: 8px;
+    overflow-y: auto; /* Adiciona uma barra de rolagem vertical se o conteúdo exceder a altura máxima */
+    width: 100%;
+    max-height: 700px;
+}
+
+.table-bordered {
+    border: 1px solid #424242; /* Borda escura e sutil */
+}
+
+.text-success {
+    color: #66bb6a !important; /* Tom de verde mais suave */
+}
+
+.text-danger {
+    color: #ef5350 !important; /* Tom de vermelho mais suave */
+}
+
+.navbar-dark .navbar-nav .nav-link.active {
+    background-color: #ffc107; /* Cor de fundo amarela */
+    color: #151616; /* Cor do texto escuro */
+    border-radius: 5px; /* Borda arredondada */

@@ -4,16 +4,17 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h1 class="title">Controle de Transações</h1>
+<div class="container-fluid mt-5">
+    <div class="row">
+        <!-- Coluna para Formulário de Adicionar Transação e Seção de Total -->
+        <div class="col-md-4">
+            <!-- Formulário de Adicionar Transação -->
             <form asp-action="AddTransaction" method="post" id="transaction-form" class="mb-5">
                 <input type="hidden" id="IsIncome" name="IsIncome" />
-                <div class="d-flex align-items-center mb-2">
-                    <input type="number" step="0.01" class="form-control mr-2" id="amount" name="Amount" placeholder="Valor" style="width: 150px;" required />
+                <div class="form-group d-flex align-items-center mb-3">
+                    <input type="number" step="0.01" class="form-control mr-2" id="amount" name="Amount" placeholder="Valor" required />
                     <div class="d-flex align-items-center">
-                        <button type="button" class="btn btn-success btn-square" id="income-btn" data-type="Income">
+                        <button type="button" class="btn btn-success btn-square mr-2" id="income-btn" data-type="Income">
                             <i class="bi bi-graph-up-arrow"></i>
                         </button>
                         <button type="button" class="btn btn-danger btn-square" id="expense-btn" data-type="Expense">
@@ -21,24 +22,24 @@
                         </button>
                     </div>
                 </div>
-                <div class="d-flex align-items-center mb-2">
-                    <input type="date" class="form-control mr-2" id="date" name="Date" style="width: 150px;" required />
+                <div class="form-group mb-3">
+                    <input type="date" class="form-control" id="date" name="Date" required />
                 </div>
-                <div class="mb-2">
+                <div class="form-group mb-3">
                     <input type="text" class="form-control" id="description" name="Description" placeholder="Descrição" />
                 </div>
-                <button type="submit" class="btn btn-primary">Adicionar</button>
+                <button type="submit" class="btn btn-primary btn-block">Adicionar</button>
             </form>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
+
+            <!-- Seção de Total -->
+            <div class="card mt-3">
                 <div class="card-body">
-                    <h4>Total</h4>
+                    <h4 class="card-title">Total</h4>
                     <p><strong>Total Receita:</strong> R$ @Model.TotalViewModel.TotalIncome.ToString("0.00")</p>
                     <p><strong>Total Despesa:</strong> R$ @Model.TotalViewModel.TotalExpense.ToString("0.00")</p>
                     <p><strong>Total:</strong> R$ @Model.TotalViewModel.Total.ToString("0.00")</p>
                     <form method="get" asp-action="Index">
-                        <div>
+                        <div class="form-group">
                             <label for="year">Ano:</label>
                             <select id="year" name="year" class="form-control">
                                 @for (int i = DateTime.Now.Year; i >= 2023; i--)
@@ -47,7 +48,7 @@
                                 }
                             </select>
                         </div>
-                        <div>
+                        <div class="form-group">
                             <label for="month">Filtrar por mês:</label>
                             <select id="month" name="month" class="form-control">
                                 <option value="">Todos</option>
@@ -57,77 +58,53 @@
                                 }
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-2">Filtrar</button>
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Filtrar</button>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row justify-content-center mt-5">
+
+        <!-- Coluna para Lista de Transações -->
         <div class="col-md-8">
-            <h2>Transações</h2>
-            <div class="table-container">
-                <table class="table table-striped table-fixed">
-                <thead>
-                    <tr>
-                            <th>
-                                Valor
-                                @if (ViewData["Order"]?.ToString() == "Valor")
-                                {
-                                    @if (ViewData["OrderDirection"]?.ToString() == "asc")
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>Valor</th>
+                            <th>Tipo</th>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var transaction in Model.TransactionViewModel.Transactions)
+                        {
+                            <tr>
+                                <td>R$ @transaction.Amount</td>
+                                <td>
+                                    @if (transaction.IsIncome)
                                     {
-                                        <a href="@Url.Action("Index", new { month = ViewData["Month"], year = ViewData["Year"], order = "Valor", orderDirection = "desc" })" class="btn btn-link">
-                                            <i class="bi bi-arrow-up-circle"></i>
-                                        </a>
+                                        <span class="text-success">Receita</span>
                                     }
                                     else
                                     {
-                                        <a href="@Url.Action("Index", new { month = ViewData["Month"], year = ViewData["Year"], order = "Valor", orderDirection = "asc" })" class="btn btn-link">
-                                            <i class="bi bi-arrow-down-circle"></i>
-                                        </a>
+                                        <span class="text-danger">Despesa</span>
                                     }
-                                }
-                                else
-                                {
-                                    <a href="@Url.Action("Index", new { month = ViewData["Month"], year = ViewData["Year"], order = "Valor", orderDirection = "asc" })" class="btn btn-link">
-                                        <i class="bi bi-arrow-down-circle"></i>
-                                    </a>
-                                }
-                            </th>
-                        <th>Tipo</th>
-                        <th>Data</th>
-                        <th>Descrição</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var transaction in Model.TransactionViewModel.Transactions)
-                    {
-                        <tr>
-                            <td>R$ @transaction.Amount</td>
-                            <td>
-                                @if (transaction.IsIncome)
-                                {
-                                    <span>Receita</span>
-                                }
-                                else
-                                {
-                                    <span>Despesa</span>
-                                }
-                            </td>   
-                            <td>@transaction.Date.ToString("dd-MM-yyyy HH:mm")</td>
-                            <td>@transaction.Description</td>
-                            <td>
-                                <form method="post" action="/Home/DeleteTransaction">
-                                    <input type="hidden" name="id" value="@transaction.Id" />
-                                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                </td>
+                                <td>@transaction.Date.ToString("dd-MM-yyyy HH:mm")</td>
+                                <td>@transaction.Description</td>
+                                <td class="text-center">
+                                    <form method="post" action="/Home/DeleteTransaction">
+                                        <input type="hidden" name="id" value="@transaction.Id" />
+                                        <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
-
-<script src="~/js/site.js" asp-append-version="true"></script>

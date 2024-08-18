@@ -15,28 +15,17 @@ namespace AtomBank.Controllers
         {
             _transactionService = transactionService;
         }
-
-        public async Task<IActionResult> Index(int? month, int? year, string order, string orderDirection)
+        public IActionResult Cards()
         {
-            if (string.IsNullOrEmpty(order))
-            {
-                order = "desc"; // Ordena por valor decrescente por padrão
-            }
+            return View();
+        }
+        public async Task<IActionResult> Index(int? month, int? year)
+        {
+            
+            int mes = month ?? DateTime.Today.Month;
+            int ano = year ?? DateTime.Today.Year;
 
-            var transactions = await _transactionService.GetAllTransactionsAsync(order, orderDirection);
-
-            if (month.HasValue && year.HasValue)
-            {
-                transactions = transactions.Where(t => t.Date.Month == month.Value && t.Date.Year == year.Value).ToList();
-            }
-            else if (year.HasValue)
-            {
-                transactions = transactions.Where(t => t.Date.Year == year.Value).ToList();
-            }
-            else if (month.HasValue)
-            {
-                transactions = transactions.Where(t => t.Date.Month == month.Value).ToList();
-            }
+            var transactions = await _transactionService.GetAllTransactionsAsync(mes, ano);
 
             var totalIncome = transactions.Where(t => t.IsIncome).Sum(t => t.Amount);
             var totalExpense = transactions.Where(t => !t.IsIncome).Sum(t => t.Amount);
@@ -60,11 +49,6 @@ namespace AtomBank.Controllers
                 TotalViewModel = totalViewModel
             };
 
-
-            ViewData["Order"] = order ?? "Valor";
-            ViewData["OrderDirection"] = orderDirection ?? "asc";
-            ViewData["Month"] = month;
-            ViewData["Year"] = year;
 
             return View(model);
         }

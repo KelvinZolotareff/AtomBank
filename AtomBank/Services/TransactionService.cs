@@ -31,24 +31,9 @@ namespace AtomBank.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Transaction>> GetAllTransactionsAsync(string order, string orderDirection)
+        public async Task<List<Transaction>> GetAllTransactionsAsync(int? month, int? year)
         {
-            IQueryable<Transaction> query = _context.Transactions;
-
-            switch (order)
-            {
-                case "Valor":
-                    query = (orderDirection == "asc") ? query.OrderBy(a => a.Amount) : query.OrderByDescending(a => a.Amount);
-                    break;
-                case "Data":
-                    query = (orderDirection == "asc") ? query.OrderBy(a => a.Date) : query.OrderByDescending(a => a.Date);
-                    break;
-                default:
-                    query = query.OrderBy(a => a.Date);
-                    break;
-            }
-
-            return await query.ToListAsync();
+            return await _context.Transactions.OrderByDescending(a => a.Amount).Where(a => a.Description == "Assinatura").ToListAsync();
         }
 
 
