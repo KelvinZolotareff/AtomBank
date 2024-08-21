@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using AtomBank.Models;
+using static AtomBank.Models.TransactionViewModel;
+using static AtomBank.Models.TransactionsTypeViewModel;
 
 namespace AtomBank.Data
 {
@@ -11,7 +12,8 @@ namespace AtomBank.Data
         }
 
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<TransactionsType> Transactions_Types { get; set; }
 
-        
+
     }
 }

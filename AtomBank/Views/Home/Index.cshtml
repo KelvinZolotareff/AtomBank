@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Home Page";
+    var types = Model.TransactionsTypeViewModel.Transactions_Types;
+
 }
 
 <div class="container-fluid mt-5">
@@ -27,6 +29,14 @@
                 </div>
                 <div class="form-group mb-3">
                     <input type="text" class="form-control" id="description" name="Description" placeholder="Descrição" />
+                </div>
+                <div class="form-group mb-3">
+                    <select  class="form-control" id="type" name="Type" placeholder="Tipo">
+                        @foreach (var transactionType in Model.TransactionsTypeViewModel.Transactions_Types)
+                    {
+                        <option value=" @transactionType.Id">@transactionType.TypeName</option>
+                    }
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Adicionar</button>
             </form>
@@ -72,12 +82,15 @@
                         <tr>
                             <th>Valor</th>
                             <th>Tipo</th>
+                            <th>Categoria</th>
                             <th>Data</th>
                             <th>Descrição</th>
                             <th>Ação</th>
                         </tr>
                     </thead>
                     <tbody>
+
+
                         @foreach (var transaction in Model.TransactionViewModel.Transactions)
                         {
                             <tr>
@@ -92,8 +105,25 @@
                                         <span class="text-danger">Despesa</span>
                                     }
                                 </td>
-                                <td>@transaction.Date.ToString("dd-MM-yyyy HH:mm")</td>
-                                <td>@transaction.Description</td>
+                                <td>
+                                    @if (types.Any(tt => tt.Id == transaction.TypeId))
+                                    {
+                                        @if (types.First(tt => tt.Id == transaction.TypeId).IsFixed)
+                                        {
+                                            <span class="text-info">@types.First(tt => tt.Id == transaction.TypeId).TypeName</span>
+                                        }
+                                        else
+                                        {
+                                            @types.First(tt => tt.Id == transaction.TypeId).TypeName;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>Tipo não encontrado</span>
+                                    }
+                                </td>
+                                <td>@transaction.TransactionDate.ToString("dd-MM-yyyy HH:mm")</td>
+                                <td>@transaction.TransactionDescription</td>
                                 <td class="text-center">
                                     <form method="post" action="/Home/DeleteTransaction">
                                         <input type="hidden" name="id" value="@transaction.Id" />

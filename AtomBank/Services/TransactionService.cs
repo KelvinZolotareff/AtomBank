@@ -1,10 +1,6 @@
 ﻿using AtomBank.Data;
 using AtomBank.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace AtomBank.Services
 {
@@ -17,26 +13,39 @@ namespace AtomBank.Services
             _context = context;
         }
 
-        public async Task AddTransactionAsync(decimal amount, bool isIncome, DateTime date, string description)
+        public async Task AddTransactionAsync(decimal amount, bool isIncome, DateTime date, string description, int type)
         {
-            var transaction = new Transaction
+            var transaction = new TransactionViewModel.Transaction
             {
                 Amount = amount,
                 IsIncome = isIncome,
-                Date = date,
-                Description = description
+                TransactionDescription = description,
+                TransactionDate = date,
+                TypeId = type,
+                InclusionDate = DateTime.Now
+
             };
 
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Transaction>> GetAllTransactionsAsync(int? month, int? year)
+        public async Task<List<TransactionViewModel.Transaction>> GetAllTransactionsAsync(int? month, int? year)
         {
-            return await _context.Transactions.OrderByDescending(a => a.Amount).Where(a => a.Description == "Assinatura").ToListAsync();
+            int[] tiposFixos = { 1, 2, 3 };
+
+            return await _context.Transactions
+                    .Where(a => (a.TransactionDate.Month == month && a.TransactionDate.Year == year)
+                     || tiposFixos.Contains(a.TypeId))
+                    .OrderByDescending(a => a.Amount)
+                    .ToListAsync();
         }
 
+        public async Task<List<TransactionsTypeViewModel.TransactionsType>> GetAllTransactionsTypesAsync()
+        {
 
+            return await _context.Transactions_Types.ToListAsync();
+        }
         public async Task DeleteTransactionAsync(int id)
         {
             var transaction = await _context.Transactions.FindAsync(id);

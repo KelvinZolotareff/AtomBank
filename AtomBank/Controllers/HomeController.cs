@@ -1,6 +1,7 @@
 using AtomBank.Models;
 using AtomBank.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace AtomBank.Controllers
             int ano = year ?? DateTime.Today.Year;
 
             var transactions = await _transactionService.GetAllTransactionsAsync(mes, ano);
+            var transactionsType = await _transactionService.GetAllTransactionsTypesAsync();
 
             var totalIncome = transactions.Where(t => t.IsIncome).Sum(t => t.Amount);
             var totalExpense = transactions.Where(t => !t.IsIncome).Sum(t => t.Amount);
@@ -34,6 +36,11 @@ namespace AtomBank.Controllers
             var transactionViewModel = new TransactionViewModel
             {
                 Transactions = transactions
+            };
+
+            var transactionsTypeViewModel = new TransactionsTypeViewModel
+            {               
+                    Transactions_Types = transactionsType
             };
 
             var totalViewModel = new TotalViewModel
@@ -46,7 +53,8 @@ namespace AtomBank.Controllers
             var model = new CombinedViewModel
             {
                 TransactionViewModel = transactionViewModel,
-                TotalViewModel = totalViewModel
+                TotalViewModel = totalViewModel,
+                TransactionsTypeViewModel = transactionsTypeViewModel
             };
 
 

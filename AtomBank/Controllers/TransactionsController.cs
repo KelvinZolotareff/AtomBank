@@ -17,10 +17,10 @@ namespace AtomBank.Controllers
 
         [HttpPost]
         [Route("Home/AddTransaction")]
-        public async Task<IActionResult> AddTransaction(decimal amount, bool isIncome, DateTime date, string? description)
+        public async Task<IActionResult> AddTransaction(decimal amount, bool isIncome, DateTime date, string? description, int type)
         {
             // Adiciona a transação
-            await _transactionService.AddTransactionAsync(amount, isIncome, date, description);
+            await _transactionService.AddTransactionAsync(amount, isIncome, date, description, type);
 
             // Redireciona para uma página de confirmação ou a página inicial
             return RedirectToAction("Index", "Home");
