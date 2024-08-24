@@ -8,7 +8,11 @@
 
         const incomeBtn = document.getElementById('income-btn');
         const expenseBtn = document.getElementById('expense-btn');
+
         let transactionType = null;
+        $(function () {
+            $('#amount').maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
+        })
 
         incomeBtn.addEventListener('click', function () {
             transactionType = 'Income';

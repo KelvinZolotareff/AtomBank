@@ -32,7 +32,7 @@ namespace AtomBank.Services
 
         public async Task<List<TransactionViewModel.Transaction>> GetAllTransactionsAsync(int? month, int? year)
         {
-            int[] tiposFixos = { 1, 2, 3 };
+            int[] tiposFixos = _context.Transactions_Types.Where(b => b.IsFixed).Select(b => b.Id).ToArray();
 
             return await _context.Transactions
                     .Where(a => (a.TransactionDate.Month == month && a.TransactionDate.Year == year)
